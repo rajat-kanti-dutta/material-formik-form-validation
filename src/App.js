@@ -5,9 +5,13 @@ import { Formik, Form } from "formik";
 import Textfield from "./components/formUI/Textfield";
 import Select from "./components/formUI/Select";
 import DateTimePicker from "./components/formUI/DateTimePicker";
+import CheckBox from "./components/formUI/CheckBox";
+import Button from "./components/formUI/Button";
 import countries from "./countries.json";
 import * as Yup from "yup";
 import "./App.css";
+//An Important concept on how formik works blog:
+//https://www.smashingmagazine.com/2020/10/react-validation-formik-yup/
 const INITIAL_FORM_STATE = {
 	firstName: "",
 	lastName: "",
@@ -21,6 +25,7 @@ const INITIAL_FORM_STATE = {
 	arrivalDate: "",
 	departureDate: "",
 	message: "",
+	termsOfService: false,
 };
 const FORM_VALIDATION = Yup.object().shape({
 	firstName: Yup.string().required("First Name is required"),
@@ -40,6 +45,9 @@ const FORM_VALIDATION = Yup.object().shape({
 	arrivalDate: Yup.date().required("Required"),
 	departureDate: Yup.date().required("Required"),
 	message: Yup.string(),
+	termsOfService: Yup.boolean()
+		.oneOf([true], "The terms and conditions must be accepted")
+		.required("The terms and conditions must be accepted"),
 });
 function App() {
 	return (
@@ -121,6 +129,16 @@ function App() {
 											multiline={true}
 											rows={4}
 										/>
+									</Grid>
+									<Grid item xs={12}>
+										<CheckBox
+											name='termsOfService'
+											legend='Terms Of Service'
+											label='I Agree'
+										/>
+									</Grid>
+									<Grid item xs={12}>
+										<Button text='hello'>Submit Form</Button>
 									</Grid>
 								</Grid>
 							</Form>
